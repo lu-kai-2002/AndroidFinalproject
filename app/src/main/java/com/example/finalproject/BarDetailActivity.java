@@ -19,6 +19,8 @@ public class BarDetailActivity extends AppCompatActivity {
     private RatingBar userRatingBar;
     private TextView tvRatingValue;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
