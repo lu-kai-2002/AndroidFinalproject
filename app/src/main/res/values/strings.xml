@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Finalproject</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="bar_image">酒吧图片</string>
+    <string name="star_icon">星级评分</string>
+</resources>
