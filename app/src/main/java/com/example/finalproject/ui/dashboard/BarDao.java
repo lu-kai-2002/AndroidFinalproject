@@ -132,4 +132,34 @@ public class BarDao {
     public void close() {
         dbHelper.close();
     }
+    // 新增方法：添加评分（原子操作）
+    public void addNewRating(String barName, double newRating) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        db.beginTransaction();
+        Cursor cursor = null;
+        try {
+            // 1. 获取当前数据
+            String[] columns = {COLUMN_TOTAL_RATING, COLUMN_RATING_COUNT};
+            cursor = db.query(TABLE_BARS, columns,
+                    COLUMN_NAME + " = ?", new String[]{barName}, null, null, null);
+
+            if (cursor.moveToFirst()) {
+                // 2. 计算新值
+                double currentTotal = cursor.getDouble(0);
+                int currentCount = cursor.getInt(1);
+                double newTotal = currentTotal + newRating;
+                int newCount = currentCount + 1;
+
+                // 3. 更新数据库
+                ContentValues values = new ContentValues();
+                values.put(COLUMN_TOTAL_RATING, newTotal);
+                values.put(COLUMN_RATING_COUNT, newCount);
+                db.update(TABLE_BARS, values, COLUMN_NAME + " = ?", new String[]{barName});
+            }
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+            cursor.close();
+        }
+    }
 }

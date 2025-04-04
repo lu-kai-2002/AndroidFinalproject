@@ -1,0 +1,6 @@
+<resources>
+    <string-array name="sort_options">
+        <item>按评分排序</item>
+        <item>按热度排序</item>
+    </string-array>
+</resources>
