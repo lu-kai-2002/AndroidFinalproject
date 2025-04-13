@@ -1,10 +1,12 @@
 package com.example.finalproject.ui.dashboard;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,11 +18,20 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
     private final List<BarItem> items;
     private final OnItemClickListener listener;
 
+    public interface OnItemClickListener {
+        void onItemClick(BarItem item, int position);
+    }
+
+    public LeaderboardAdapter(List<BarItem> items, OnItemClickListener listener) {
+        this.items = items;
+        this.listener = listener;
+    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public ImageView ivBar;
-        public TextView tvName;
-        public TextView tvAddress;
-        public TextView tvRating;
+        final ImageView ivBar;
+        final TextView tvName;
+        final TextView tvAddress;
+        final TextView tvRating;
 
         public ViewHolder(View view) {
             super(view);
@@ -29,16 +40,15 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
             tvAddress = view.findViewById(R.id.tv_address);
             tvRating = view.findViewById(R.id.tv_rating);
         }
-    }
 
-    public interface OnItemClickListener {
-        void onItemClick(BarItem item);
-    }
-
-    // 移除旧的构造函数，仅保留新的构造函数
-    public LeaderboardAdapter(List<BarItem> items, OnItemClickListener listener) {
-        this.items = items;
-        this.listener = listener;
+        public void bindClick(final BarItem item, final OnItemClickListener listener) {
+            itemView.setOnClickListener(v -> {
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION) {
+                    listener.onItemClick(item, position);
+                }
+            });
+        }
     }
 
     @NonNull
@@ -52,17 +62,24 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         BarItem item = items.get(position);
+        Log.d("BindDebug", "绑定数据: " + item.getName() +
+                " 平均分=" + item.getAverageRating() +
+                " 次数=" + item.getRatingCount());
+        double point=item.getAverageRating()/item.getRatingCount();
         holder.ivBar.setImageResource(item.getImageResId());
         holder.tvName.setText(item.getName());
         holder.tvAddress.setText(item.getAddress());
-        holder.tvRating.setText(String.format("评分：%.1f", item.getRating()));
+        holder.tvRating.setText(String.format("评分：%.1f（%d人）",
+                point,
+                item.getRatingCount()));
+        holder.bindClick(item, listener); // 绑定点击事件
+    }
 
-        // 添加点击事件
-        holder.itemView.setOnClickListener(v -> {
-            if (listener != null) {
-                listener.onItemClick(item);
-            }
-        });
+    // 添加数据更新方法
+    public void updateData(List<BarItem> newItems) {
+        items.clear();
+        items.addAll(newItems);
+        notifyDataSetChanged();
     }
 
     @Override

@@ -61,6 +61,7 @@ android:paddingTop="4dp">
             android:textColor="#FF9800"
             android:textSize="16sp"
             android:textStyle="bold"
+            android:text="评分：4.5（20人）"
             tools:text="0.0" />
 
 </LinearLayout>
