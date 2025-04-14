@@ -115,10 +115,22 @@ public class BarDetailActivity extends AppCompatActivity {
     }
 
     private void returnToFragment() {
-        Intent resultIntent = new Intent();
-        resultIntent.putExtra("UPDATED_BAR", currentBar);
-        resultIntent.putExtra("ITEM_POSITION", itemPosition);
-        setResult(RESULT_OK, resultIntent);
+        if (itemPosition >= 0) {
+            // 从排行榜页面进入，回传更新数据
+            Intent resultIntent = new Intent();
+            resultIntent.putExtra("UPDATED_BAR", currentBar);
+            resultIntent.putExtra("ITEM_POSITION", itemPosition);
+            setResult(RESULT_OK, resultIntent);
+        }
+        // 否则只是从帖子页进入，直接关闭即可
         finish();
     }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();  // 正常返回上一页面（PostDetailActivity）
+        return true;
+    }
+
+
 }

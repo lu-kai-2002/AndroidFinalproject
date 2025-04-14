@@ -11,8 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.finalproject.PostDetailActivity;
 import com.example.finalproject.R;
-import com.example.finalproject.ui.post.PostDetailActivity;
 
 import java.util.List;
 

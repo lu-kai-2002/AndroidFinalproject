@@ -1,18 +1,20 @@
-package com.example.finalproject.ui.post;
+package com.example.finalproject;
 
+import com.example.finalproject.ui.dashboard.BarDao;
+import com.example.finalproject.ui.dashboard.BarItem;
+
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
-
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.finalproject.BarDetailActivity;
-import com.example.finalproject.R;
 
 public class PostDetailActivity extends AppCompatActivity {
     @Override
@@ -39,16 +41,26 @@ public class PostDetailActivity extends AppCompatActivity {
                 "老板也会根据你的喜好来推荐");
         imageView.setImageResource(R.drawable.sample3);
 
-        // 🔽 就在这里添加跳转按钮的逻辑 🔽
+        // 添加跳转按钮的逻辑
         Button buttonGoToBar = findViewById(R.id.buttonGoToBar);
         buttonGoToBar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(PostDetailActivity.this, BarDetailActivity.class);
-                intent.putExtra("bar_name", "爵士俱乐部");
-                startActivity(intent);
+                // 从数据库中查找“爵士俱乐部”
+                BarDao barDao = new BarDao(PostDetailActivity.this);
+                BarItem barItem = barDao.getBarByName("爵士俱乐部");
+
+                if (barItem != null) {
+                    Intent intent = new Intent(PostDetailActivity.this, BarDetailActivity.class);
+                    intent.putExtra("BAR_ITEM", barItem);  // 传完整对象
+                    intent.putExtra("ITEM_POSITION", -1);  // 表示不是从排行榜进入的
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(PostDetailActivity.this, "找不到对应酒吧", Toast.LENGTH_SHORT).show();
+                }
             }
         });
+
     }
 
 
