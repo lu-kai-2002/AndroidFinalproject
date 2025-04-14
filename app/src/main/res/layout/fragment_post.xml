@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- 文本输入框 -->
+    <EditText
+        android:id="@+id/editTextContent"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:hint="说点什么吧..."
+        android:gravity="top"
+        android:inputType="textMultiLine"
+        android:background="@android:drawable/edit_text"
+        android:padding="10dp" />
+
+    <!-- RecyclerView 图片列表 -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewImages"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_marginTop="16dp" />
+
+    <!-- 添加图片按钮 -->
+    <Button
+        android:id="@+id/btnAddImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="添加图片"
+        android:layout_marginTop="12dp" />
+
+    <!-- 发布按钮 -->
+    <Button
+        android:id="@+id/btnPublish"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="发布"
+        android:layout_marginTop="24dp" />
+</LinearLayout>

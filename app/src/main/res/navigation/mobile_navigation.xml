@@ -22,4 +22,11 @@
         android:name="com.example.finalproject.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
+
+    <fragment
+        android:id="@+id/navigation_post"
+        android:name="com.example.finalproject.ui.post.PostFragment"
+        android:label="发帖"
+        tools:layout="@layout/fragment_post" />
+
 </navigation>
