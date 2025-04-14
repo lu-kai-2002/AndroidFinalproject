@@ -45,6 +45,7 @@ public class HomeFragment extends Fragment {
         postList.add(new Post("Rechal", "So chill~", R.drawable.sample2));
         postList.add(new Post("Rainie", "It's a special place.", R.drawable.sample3));
 
+
         adapter = new PostAdapter(postList, getContext());
         recyclerView.setAdapter(adapter);
 

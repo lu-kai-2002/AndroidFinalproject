@@ -1,6 +1,7 @@
 package com.example.finalproject.ui.home;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.finalproject.R;
+import com.example.finalproject.ui.post.PostDetailActivity;
 
 import java.util.List;
 
@@ -69,6 +71,15 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                     post.isLiked() ? R.drawable.ic_heart_red : R.drawable.ic_heart_gray
             );
         });
+
+        // 点击Rainie跳转
+        holder.itemView.setOnClickListener(v -> {
+            if (post.getUsername().equals("Rainie")) {
+                Intent intent = new Intent(context, PostDetailActivity.class);
+                context.startActivity(intent);
+            }
+        });
+
     }
 
     @Override
