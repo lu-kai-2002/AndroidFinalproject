@@ -65,7 +65,7 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
         Log.d("BindDebug", "绑定数据: " + item.getName() +
                 " 平均分=" + item.getAverageRating() +
                 " 次数=" + item.getRatingCount());
-        double point=item.getAverageRating()/item.getRatingCount();
+        double point=item.getAverageRating();
         holder.ivBar.setImageResource(item.getImageResId());
         holder.tvName.setText(item.getName());
         holder.tvAddress.setText(item.getAddress());

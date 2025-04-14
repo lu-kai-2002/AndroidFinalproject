@@ -107,7 +107,8 @@ public class BarDao {
                 cursor.getInt(cursor.getColumnIndexOrThrow(BarDbHelper.COLUMN_IMAGE_RES_ID)),
                 cursor.getString(cursor.getColumnIndexOrThrow(BarDbHelper.COLUMN_ADDRESS)),
                 cursor.getDouble(cursor.getColumnIndexOrThrow(COLUMN_TOTAL_RATING)),
-                cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_RATING_COUNT))
+                cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_RATING_COUNT)),
+                true
         );
     }
 

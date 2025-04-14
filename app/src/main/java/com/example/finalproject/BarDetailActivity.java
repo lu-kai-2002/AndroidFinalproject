@@ -110,7 +110,7 @@ public class BarDetailActivity extends AppCompatActivity {
         ratingBar.setRating((float) currentBar.getAverageRating()/currentBar.getRatingCount());
         tvRatingValue.setText(String.format(Locale.getDefault(),
                 "%.1f（%d人评分）",
-                currentBar.getAverageRating()/currentBar.getRatingCount(),
+                currentBar.getAverageRating(),
                 currentBar.getRatingCount()));
     }
 

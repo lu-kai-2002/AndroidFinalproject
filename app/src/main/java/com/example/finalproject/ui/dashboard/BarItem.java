@@ -8,42 +8,50 @@ import android.os.Parcelable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-public class BarItem implements Parcelable{
+public class BarItem implements Parcelable {
     private final String name;
     private final int imageResId;
     private final String address;
-    private double rating;
-
-    // 新增字段
-    private double totalRating; // 总评分
+    private double totalRating; // 累计的总评分
     private int ratingCount;    // 评分次数
 
-    // 计算平均分的方法
+    // 计算平均分：总评分 / 次数
     public double getAverageRating() {
         if (ratingCount <= 0) return 0;
-        // 添加精确计算保护
         BigDecimal total = new BigDecimal(String.valueOf(totalRating));
         BigDecimal count = new BigDecimal(ratingCount);
         return total.divide(count, 1, RoundingMode.HALF_UP).doubleValue();
     }
+
+    // 构造函数：用于创建新对象时，传入的 initialRating 为平均分
     public BarItem(String name, int imageResId, String address,
                    double initialRating, int ratingCount) {
         this.name = name;
         this.imageResId = imageResId;
         this.address = address;
+        // 假设 initialRating 为平均分，这里转换成总评分
         this.totalRating = initialRating * ratingCount;
         this.ratingCount = ratingCount;
     }
 
+    // 新增构造函数：用于从数据库中读取数据时，不再进行乘法运算
+    public BarItem(String name, int imageResId, String address,
+                   double totalRating, int ratingCount, boolean fromDb) {
+        this.name = name;
+        this.imageResId = imageResId;
+        this.address = address;
+        // 数据库中存储的就是累计的总评分
+        this.totalRating = totalRating;
+        this.ratingCount = ratingCount;
+    }
 
-
-    // 添加评分
+    // 评分累加方法
     public void addRating(double newRating) {
         totalRating += newRating;
         ratingCount++;
     }
 
-    // Parcelable 实现需要新增字段
+    // Parcelable 相关代码等保持不变……
     protected BarItem(Parcel in) {
         name = in.readString();
         imageResId = in.readInt();
@@ -59,27 +67,6 @@ public class BarItem implements Parcelable{
         dest.writeDouble(totalRating);
         dest.writeInt(ratingCount);
     }
-
-    // 生成ContentValues的方法
-    public ContentValues toContentValues() {
-        ContentValues values = new ContentValues();
-        values.put(BarDbHelper.COLUMN_NAME, name);
-        values.put(BarDbHelper.COLUMN_IMAGE_RES_ID, imageResId);
-        values.put(BarDbHelper.COLUMN_ADDRESS, address);
-        values.put(BarDbHelper.COLUMN_TOTAL_RATING, totalRating);
-        values.put(BarDbHelper.COLUMN_RATING_COUNT, ratingCount);
-        return values;
-    }
-
-
-    public double getTotalRating(){return totalRating;}
-    // Getter 方法
-    public String getName() { return name; }
-    public int getImageResId() { return imageResId; }
-    public int getRatingCount() { return ratingCount; }
-    public String getAddress() { return address; }
-    public float getRating() { return (float)rating; }
-
 
     public static final Parcelable.Creator<BarItem> CREATOR = new Parcelable.Creator<BarItem>() {
         @Override
@@ -97,14 +84,16 @@ public class BarItem implements Parcelable{
     public int describeContents() {
         return 0;
     }
-    // 新增评分更新方法
-    public void updateRating(double newRating) {
-        this.rating = newRating;
-    }
-    // 新增便捷方法
+
+    // Getter 方法……
+    public String getName() { return name; }
+    public int getImageResId() { return imageResId; }
+    public int getRatingCount() { return ratingCount; }
+    public String getAddress() { return address; }
+    public double getTotalRating(){ return totalRating; }
+
+    // 便捷的格式化评分
     public String getFormattedRating() {
         return String.format("%.1f（%d人评分）", getAverageRating(), ratingCount);
     }
-
-
 }

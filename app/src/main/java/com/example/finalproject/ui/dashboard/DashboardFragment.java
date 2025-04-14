@@ -94,7 +94,7 @@ public class DashboardFragment extends Fragment {
         if (currentSortPosition == 0) {
             // 按评分排序（降序）
             Collections.sort(barItems, (o1, o2) ->
-                    Double.compare(o2.getAverageRating()/o2.getRatingCount(), o1.getAverageRating()/o1.getRatingCount()));
+                    Double.compare(o2.getAverageRating(), o1.getAverageRating()));
         } else {
             // 按热度排序（降序）
             Collections.sort(barItems, (o1, o2) ->
