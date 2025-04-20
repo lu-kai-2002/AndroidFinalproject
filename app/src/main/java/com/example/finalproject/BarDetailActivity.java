@@ -107,7 +107,7 @@ public class BarDetailActivity extends AppCompatActivity {
     }
 
     private void updateRatingDisplay() {
-        ratingBar.setRating((float) currentBar.getAverageRating()/currentBar.getRatingCount());
+        ratingBar.setRating((float) currentBar.getAverageRating());
         tvRatingValue.setText(String.format(Locale.getDefault(),
                 "%.1f（%d人评分）",
                 currentBar.getAverageRating(),
