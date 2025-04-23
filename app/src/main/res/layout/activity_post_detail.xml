@@ -24,14 +24,14 @@
 
             <TextView
                 android:id="@+id/textUsername"
-                android:text="Rainie"
+                android:text="用户名"
                 android:textStyle="bold"
                 android:textSize="18sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </LinearLayout>
 
-        <!-- 主图 -->
+        <!-- 主图（数据库中图片） -->
         <ImageView
             android:id="@+id/imageContent"
             android:layout_width="match_parent"
@@ -39,7 +39,7 @@
             android:scaleType="centerCrop"
             android:layout_marginTop="16dp" />
 
-        <!-- 内容描述 -->
+        <!-- 帖子内容（数据库加载） -->
         <TextView
             android:id="@+id/textContent"
             android:layout_marginTop="16dp"
@@ -47,17 +47,16 @@
             android:layout_height="wrap_content"
             android:textSize="16sp"
             android:textColor="#333"
-            android:text="🍹我心中的顺德酒吧前三！！喝了78910杯…\n\n一家很有上海 feel 的小酒馆\n适合约小姐妹来微醺\n老板也会根据你的喜好来推荐"/>
+            android:text="这里是帖子内容（动态加载）"/>
 
         <!-- 跳转去酒吧页面 -->
         <Button
             android:id="@+id/buttonGoToBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="去【爵士俱乐部】看看"
+            android:text="去【酒吧名】看看"
             android:layout_marginTop="24dp"
             android:layout_gravity="center_horizontal"/>
-
 
         <!-- 评论标题 -->
         <TextView
@@ -68,7 +67,7 @@
             android:textStyle="bold"
             android:layout_marginTop="32dp"/>
 
-        <!-- 评论1 -->
+        <!-- 静态评论 1 -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -111,7 +110,7 @@
             </LinearLayout>
         </LinearLayout>
 
-        <!-- 评论2 -->
+        <!-- 静态评论 2 -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

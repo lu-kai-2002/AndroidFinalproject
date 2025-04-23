@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.finalproject.PostDetailActivity;
 import com.example.finalproject.R;
+import com.example.finalproject.ui.login.loginDBhelper;
+import com.example.finalproject.ui.post.PostEntity;
 
 import java.util.List;
 
@@ -35,8 +37,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             textViewUser = itemView.findViewById(R.id.textViewUser);
             textViewContent = itemView.findViewById(R.id.textViewContent);
             imageViewPost = itemView.findViewById(R.id.imageViewPost);
-            imageLike = itemView.findViewById(R.id.imageLike);       // ❤️
-            imageAvatar = itemView.findViewById(R.id.imageAvatar);   // 👤
+            imageLike = itemView.findViewById(R.id.imageLike);
+            imageAvatar = itemView.findViewById(R.id.imageAvatar);
         }
     }
 
@@ -47,6 +49,41 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         return new PostViewHolder(view);
     }
 
+//    @Override
+//    public void onBindViewHolder(@NonNull PostViewHolder holder, int position) {
+//        Post post = postList.get(position);
+//
+//        holder.textViewUser.setText(post.getUsername());
+//        holder.textViewContent.setText(post.getContent());
+//        holder.imageViewPost.setImageResource(post.getImageResId());
+//
+//        // 👤 设置头像（可换成 post.getAvatarResId()）
+//        holder.imageAvatar.setImageResource(R.drawable.ic_avatar_default);
+//
+//        // 设置当前点赞状态
+//        holder.imageLike.setImageResource(
+//                post.isLiked() ? R.drawable.ic_heart_red : R.drawable.ic_heart_gray
+//        );
+//
+//        // 点击切换点赞状态
+//        holder.imageLike.setOnClickListener(v -> {
+//            boolean liked = post.isLiked();
+//            post.setLiked(!liked);
+//            holder.imageLike.setImageResource(
+//                    post.isLiked() ? R.drawable.ic_heart_red : R.drawable.ic_heart_gray
+//            );
+//        });
+//
+//        // 点击Rainie跳转
+//        holder.itemView.setOnClickListener(v -> {
+//            if (post.getUsername().equals("Rainie")) {
+//                Intent intent = new Intent(context, PostDetailActivity.class);
+//                context.startActivity(intent);
+//            }
+//        });
+//
+//    }
+
     @Override
     public void onBindViewHolder(@NonNull PostViewHolder holder, int position) {
         Post post = postList.get(position);
@@ -54,16 +91,12 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         holder.textViewUser.setText(post.getUsername());
         holder.textViewContent.setText(post.getContent());
         holder.imageViewPost.setImageResource(post.getImageResId());
-
-        // 👤 设置头像（可换成 post.getAvatarResId()）
         holder.imageAvatar.setImageResource(R.drawable.ic_avatar_default);
 
-        // 设置当前点赞状态
         holder.imageLike.setImageResource(
                 post.isLiked() ? R.drawable.ic_heart_red : R.drawable.ic_heart_gray
         );
 
-        // 点击切换点赞状态
         holder.imageLike.setOnClickListener(v -> {
             boolean liked = post.isLiked();
             post.setLiked(!liked);
@@ -72,14 +105,12 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             );
         });
 
-        // 点击Rainie跳转
+        // 点击跳转详情页
         holder.itemView.setOnClickListener(v -> {
-            if (post.getUsername().equals("Rainie")) {
-                Intent intent = new Intent(context, PostDetailActivity.class);
-                context.startActivity(intent);
-            }
+            Intent intent = new Intent(context, PostDetailActivity.class);
+            intent.putExtra("post_id", post.getPostId());  // 传入数据库 ID
+            context.startActivity(intent);
         });
-
     }
 
     @Override

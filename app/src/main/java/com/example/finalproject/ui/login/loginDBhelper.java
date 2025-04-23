@@ -70,4 +70,18 @@ public class loginDBhelper extends SQLiteOpenHelper {
         c.close();
         return ok;
     }
+    public String getUsernameById(int id) {
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor c = db.query(TABLE_USERS, new String[]{COL_USER},
+                COL_ID + "=?", new String[]{String.valueOf(id)},
+                null, null, null);
+
+        String username = null;
+        if (c.moveToFirst()) {
+            username = c.getString(0);
+        }
+        c.close();
+        return username;
+    }
+
 }
