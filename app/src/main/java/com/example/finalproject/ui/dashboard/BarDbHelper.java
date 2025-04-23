@@ -8,7 +8,7 @@ import com.example.finalproject.R;
 
 public class BarDbHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "bars.db";
-    private static final int DATABASE_VERSION = 3; // 版本号升级
+    private static final int DATABASE_VERSION = 4; // 版本号升级
 
     // 表结构
     public static final String TABLE_BARS = "bars";

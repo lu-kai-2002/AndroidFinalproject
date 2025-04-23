@@ -38,6 +38,8 @@ public class PostFragment extends Fragment {
     private PostDao postDao;
     private loginDBhelper loginHelper;
 
+    private PostDbHelper postDbHelper;
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -50,6 +52,7 @@ public class PostFragment extends Fragment {
         recyclerViewImages = root.findViewById(R.id.recyclerViewImages);
 
         // 初始化 DAO 和登录助手
+        postDbHelper=new PostDbHelper(requireContext());
         postDao = new PostDao(requireContext());
         loginHelper = new loginDBhelper(requireContext());
 
