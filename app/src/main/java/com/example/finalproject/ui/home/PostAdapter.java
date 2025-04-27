@@ -2,6 +2,7 @@ package com.example.finalproject.ui.home;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -87,6 +88,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     @Override
     public void onBindViewHolder(@NonNull PostViewHolder holder, int position) {
         Post post = postList.get(position);
+        Log.d("position",String.valueOf(position));
 
         holder.textViewUser.setText(post.getUsername());
         holder.textViewContent.setText(post.getContent());
@@ -108,7 +110,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         // 点击跳转详情页
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, PostDetailActivity.class);
-            intent.putExtra("post_id", post.getPostId());  // 传入数据库 ID
+            intent.putExtra("post_id", post.getPostId());
+            Log.d("postid",String.valueOf(post.getPostId()));// 传入数据库 ID
             context.startActivity(intent);
         });
     }

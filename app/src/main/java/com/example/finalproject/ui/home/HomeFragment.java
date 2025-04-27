@@ -1,8 +1,10 @@
 package com.example.finalproject.ui.home;
 
 import android.content.Context;
+import android.content.Entity;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,7 +53,9 @@ public class HomeFragment extends Fragment {
 
         // 从数据库加载帖子数据
         postList = loadPostsFromDb(getContext());
-
+        for(Post post:postList) {
+            Log.d("listpostid", String.valueOf(post.getPostId()));
+        }
         adapter = new PostAdapter(postList, getContext());
         recyclerView.setAdapter(adapter);
 
@@ -72,6 +76,7 @@ public class HomeFragment extends Fragment {
         List<Post> result = new ArrayList<>();
 
         for (PostEntity entity : entityList) {
+          //  Log.d("postid",String.valueOf(entity.getId()));
             String username = userHelper.getUsernameById(entity.getUserId());
             result.add(new Post(username != null ? username : "匿名用户",
                     entity.getContent(),

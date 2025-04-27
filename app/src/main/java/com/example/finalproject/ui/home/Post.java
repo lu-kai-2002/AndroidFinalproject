@@ -16,7 +16,7 @@ public class Post {
         this.user = user;
         this.content = content;
         this.imageResId = imageResId;
-        this.postId = postId;
+        this.postId = id;
     }
 
     // Getter 方法
