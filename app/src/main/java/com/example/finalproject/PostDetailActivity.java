@@ -1,6 +1,7 @@
 package com.example.finalproject;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -38,7 +39,7 @@ public class PostDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_detail);
 
-        // 获取传入的 postId
+        // 获取 postId
         postId = getIntent().getIntExtra("post_id", -1);
         if (postId == -1) {
             Toast.makeText(this, "无法加载帖子：ID 错误", Toast.LENGTH_SHORT).show();
@@ -46,7 +47,7 @@ public class PostDetailActivity extends AppCompatActivity {
             return;
         }
 
-        // 获取帖子内容
+        // 获取帖子对象
         postDao = new PostDao(this);
         currentPost = postDao.getPostById(postId);
         if (currentPost == null) {
@@ -55,7 +56,7 @@ public class PostDetailActivity extends AppCompatActivity {
             return;
         }
 
-        // 设置顶部返回箭头
+        // 设置返回按钮
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setTitle("详情");
@@ -67,26 +68,24 @@ public class PostDetailActivity extends AppCompatActivity {
         TextView contentView = findViewById(R.id.textContent);
         Button buttonGoToBar = findViewById(R.id.buttonGoToBar);
 
-        // 评论区控件
         recyclerViewComments = findViewById(R.id.recyclerViewComments);
         editComment = findViewById(R.id.editComment);
         btnSubmitComment = findViewById(R.id.btnSubmitComment);
 
-        // 显示帖子作者昵称
+        // 显示作者昵称
         loginDBhelper loginHelper = new loginDBhelper(this);
         String username = loginHelper.getUsernameById(currentPost.getUserId());
         usernameView.setText(username != null ? username : "未知用户");
 
-        // 显示内容和图片
+        // 显示内容与图片
         contentView.setText(currentPost.getContent());
         imageView.setImageResource(currentPost.getImageResId());
 
-        // 跳转到酒吧
+        // 跳转酒吧页面
         String barName = currentPost.getBarName();
         if (barName != null && !barName.isEmpty()) {
             buttonGoToBar.setVisibility(View.VISIBLE);
             buttonGoToBar.setText("去【" + barName + "】看看");
-
             buttonGoToBar.setOnClickListener(v -> {
                 BarDao barDao = new BarDao(PostDetailActivity.this);
                 BarItem barItem = barDao.getBarByName(barName);
@@ -103,13 +102,12 @@ public class PostDetailActivity extends AppCompatActivity {
             buttonGoToBar.setVisibility(View.GONE);
         }
 
-        // 初始化评论列表
+        // 初始化评论区
         commentDao = new CommentDao(this);
         commentAdapter = new CommentAdapter(this, commentDao.getCommentsByPostId(postId));
         recyclerViewComments.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewComments.setAdapter(commentAdapter);
 
-        // 发布评论按钮逻辑
         btnSubmitComment.setOnClickListener(v -> {
             String content = editComment.getText().toString().trim();
             if (content.isEmpty()) {
@@ -117,9 +115,15 @@ public class PostDetailActivity extends AppCompatActivity {
                 return;
             }
 
+            int userId = getCurrentUserId();
+            if (userId == -1) {
+                Toast.makeText(this, "请先登录", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             CommentEntity comment = new CommentEntity();
             comment.setPostId(postId);
-            comment.setUserId(getCurrentUserId());
+            comment.setUserId(userId);
             comment.setContent(content);
             comment.setTimestamp(System.currentTimeMillis());
 
@@ -134,22 +138,23 @@ public class PostDetailActivity extends AppCompatActivity {
         });
     }
 
-    /** 模拟获取当前用户 ID */
+    /** ✅ 正确读取已登录用户 ID（与帖子发帖方式保持一致） */
     private int getCurrentUserId() {
-        return 1;
+        SharedPreferences sp = getSharedPreferences("app_prefs", MODE_PRIVATE);
+        return sp.getInt("current_user_id", -1);
     }
 
-    /** 刷新当前帖子的评论 */
+    /** 刷新评论列表 */
     private void refreshCommentList() {
         List<CommentEntity> comments = commentDao.getCommentsByPostId(postId);
         commentAdapter.setCommentList(comments);
     }
 
-    /** 返回按钮逻辑 */
+    /** 返回按钮 */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            finish();  // 返回上一页
+            finish();
             return true;
         }
         return super.onOptionsItemSelected(item);
