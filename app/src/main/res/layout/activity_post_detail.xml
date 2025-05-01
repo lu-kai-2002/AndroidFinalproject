@@ -20,7 +20,7 @@
                 android:src="@drawable/ic_avatar_default"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_marginEnd="10dp"/>
+                android:layout_marginEnd="10dp" />
 
             <TextView
                 android:id="@+id/textUsername"
@@ -28,10 +28,10 @@
                 android:textStyle="bold"
                 android:textSize="18sp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
         </LinearLayout>
 
-        <!-- 主图（数据库中图片） -->
+        <!-- 主图 -->
         <ImageView
             android:id="@+id/imageContent"
             android:layout_width="match_parent"
@@ -39,7 +39,7 @@
             android:scaleType="centerCrop"
             android:layout_marginTop="16dp" />
 
-        <!-- 帖子内容（数据库加载） -->
+        <!-- 帖子内容 -->
         <TextView
             android:id="@+id/textContent"
             android:layout_marginTop="16dp"
@@ -47,16 +47,17 @@
             android:layout_height="wrap_content"
             android:textSize="16sp"
             android:textColor="#333"
-            android:text="这里是帖子内容（动态加载）"/>
+            android:text="这里是帖子内容（动态加载）" />
 
-        <!-- 跳转去酒吧页面 -->
+        <!-- 去酒吧按钮 -->
         <Button
             android:id="@+id/buttonGoToBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="去【酒吧名】看看"
             android:layout_marginTop="24dp"
-            android:layout_gravity="center_horizontal"/>
+            android:layout_gravity="center_horizontal"
+            android:visibility="gone" />
 
         <!-- 评论标题 -->
         <TextView
@@ -65,93 +66,34 @@
             android:text="最新评论"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:layout_marginTop="32dp"/>
+            android:layout_marginTop="32dp" />
 
-        <!-- 静态评论 1 -->
-        <LinearLayout
+        <!-- 评论列表 -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewComments"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="16dp">
+            android:layout_marginTop="8dp"
+            android:nestedScrollingEnabled="false" />
 
-            <ImageView
-                android:src="@drawable/ic_avatar_default"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_marginEnd="10dp"/>
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="点小评"
-                    android:textStyle="bold"
-                    android:textSize="14sp"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="老板的推荐，是不是也包括了‘微醺’的自己？"
-                    android:textSize="14sp"
-                    android:layout_marginTop="2dp"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="1月3日 · 广东"
-                    android:textSize="12sp"
-                    android:textColor="#888"
-                    android:layout_marginTop="2dp"/>
-            </LinearLayout>
-        </LinearLayout>
-
-        <!-- 静态评论 2 -->
-        <LinearLayout
+        <!-- 输入评论 -->
+        <EditText
+            android:id="@+id/editComment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="16dp">
+            android:hint="写下你的评论..."
+            android:layout_marginTop="16dp"
+            android:background="@android:drawable/edit_text"
+            android:padding="10dp"
+            android:textSize="14sp" />
 
-            <ImageView
-                android:src="@drawable/ic_avatar_default"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_marginEnd="10dp"/>
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="橙不忍岛"
-                    android:textStyle="bold"
-                    android:textSize="14sp"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="贵吗？"
-                    android:textSize="14sp"
-                    android:layout_marginTop="2dp"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="1月5日 · 广东"
-                    android:textSize="12sp"
-                    android:textColor="#888"
-                    android:layout_marginTop="2dp"/>
-            </LinearLayout>
-        </LinearLayout>
+        <Button
+            android:id="@+id/btnSubmitComment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="发布"
+            android:layout_gravity="end"
+            android:layout_marginTop="8dp" />
 
     </LinearLayout>
 </ScrollView>
