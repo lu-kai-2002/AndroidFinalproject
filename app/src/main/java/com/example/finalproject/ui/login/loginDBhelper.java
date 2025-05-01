@@ -8,7 +8,7 @@ import android.database.Cursor;
 
 public class loginDBhelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "app.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 3;
 
     public static final String TABLE_USERS = "users";
     public static final String COL_ID       = "id";

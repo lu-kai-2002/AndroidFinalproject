@@ -58,4 +58,29 @@ public class CommentDao {
         cursor.close();
         return commentList;
     }
+    public CommentEntity getCommentById(int id) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        Cursor c = db.query(
+                CommentDbHelper.TABLE_NAME,
+                null,
+                CommentDbHelper.COL_ID + "=?",
+                new String[]{ String.valueOf(id) },
+                null, null, null,
+                "1"                       // LIMIT 1
+        );
+        CommentEntity result = null;
+        if (c.moveToFirst()) result = cursor2entity(c);
+        c.close();
+        return result;                // may return null (not found)
+    }
+    private CommentEntity cursor2entity(Cursor c) {
+        CommentEntity e = new CommentEntity();
+        e.setId(        c.getInt   (c.getColumnIndexOrThrow(CommentDbHelper.COL_ID)));
+        e.setPostId(    c.getInt   (c.getColumnIndexOrThrow(CommentDbHelper.COL_POST_ID)));
+        e.setUserId(    c.getInt   (c.getColumnIndexOrThrow(CommentDbHelper.COL_USER_ID)));
+        e.setContent(   c.getString(c.getColumnIndexOrThrow(CommentDbHelper.COL_CONTENT)));
+        e.setTimestamp( c.getLong  (c.getColumnIndexOrThrow(CommentDbHelper.COL_TIMESTAMP)));
+        return e;
+    }
 }
