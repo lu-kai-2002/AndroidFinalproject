@@ -6,6 +6,8 @@ import com.example.finalproject.R;
 import com.example.finalproject.ui.NotificationContainerFragment;
 import com.example.finalproject.ui.auth.AuthManager;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -86,8 +88,19 @@ public class LoginFragment extends Fragment {
             if (TextUtils.isEmpty(u) || TextUtils.isEmpty(p)) {
                 Toast.makeText(getContext(), "请输入用户名和密码", Toast.LENGTH_SHORT).show();
             } else if (dbHelper.checkUser(u, p)) {
-                // 保存登录态并通知父 Fragment 切换
                 AuthManager.setLoggedIn(true);
+                // 1) 查出当前用户的数据库 id
+                int userId = dbHelper.getUserId(u);
+
+                // 2) 存到 SharedPreferences
+                SharedPreferences sp = requireContext()
+                        .getSharedPreferences("app_prefs", Context.MODE_PRIVATE);
+                sp.edit()
+                        .putBoolean("is_logged_in", true)
+                        .putInt("current_user_id", userId)
+                        .apply();
+
+                // 3) 通知切换 UI
                 if (getParentFragment() instanceof NotificationContainerFragment) {
                     ((NotificationContainerFragment) getParentFragment()).loadChildFragment();
                 }

@@ -83,5 +83,23 @@ public class loginDBhelper extends SQLiteOpenHelper {
         c.close();
         return username;
     }
+    /** 返回指定用户名的 id，找不到则返回 -1 */
+    public int getUserId(String user) {
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor c = db.query(
+                TABLE_USERS,
+                new String[]{ COL_ID },
+                COL_USER + " = ?",
+                new String[]{ user },
+                null, null, null
+        );
+        int id = -1;
+        if (c.moveToFirst()) {
+            id = c.getInt(c.getColumnIndexOrThrow(COL_ID));
+        }
+        c.close();
+        return id;
+    }
+
 
 }
