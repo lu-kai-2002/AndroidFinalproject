@@ -29,6 +29,7 @@ public class BarDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bar_detail);
+        setTitle("详情");
 
         // 必须先初始化DAO和获取数据
         barDao = new BarDao(this);
