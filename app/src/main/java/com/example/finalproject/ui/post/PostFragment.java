@@ -47,7 +47,6 @@ public class PostFragment extends Fragment {
     private loginDBhelper loginHelper;
     private BarDao barDao;
 
-    // 用来存所有 BarItem 和对应的 名字列表
     private List<BarItem> allBars;
     private List<String> barNames;
 
@@ -57,17 +56,17 @@ public class PostFragment extends Fragment {
 
         View root = inflater.inflate(R.layout.fragment_post, container, false);
 
-        // 1. 绑定控件
-        editTextContent    = root.findViewById(R.id.editTextContent);
-        btnAddImage        = root.findViewById(R.id.btnAddImage);
-        btnPublish         = root.findViewById(R.id.btnPublish);
+        // 1. 绑定控件（确保字段也赋值）
+        editTextContent = root.findViewById(R.id.editTextContent);
+        btnAddImage = root.findViewById(R.id.btnAddImage);
+        btnPublish = root.findViewById(R.id.btnPublish);
+        spinnerBars = root.findViewById(R.id.spinnerBars);
         recyclerViewImages = root.findViewById(R.id.recyclerViewImages);
-        spinnerBars        = root.findViewById(R.id.spinnerBars);
 
         // 2. 初始化 DAO
-        postDao     = new PostDao(requireContext());
+        postDao = new PostDao(requireContext());
         loginHelper = new loginDBhelper(requireContext());
-        barDao      = new BarDao(requireContext());
+        barDao = new BarDao(requireContext());
 
         // 3. 图片列表设置
         imageAdapter = new ImageAdapter(selectedImages, getContext());
@@ -76,8 +75,8 @@ public class PostFragment extends Fragment {
         recyclerViewImages.setAdapter(imageAdapter);
         btnAddImage.setOnClickListener(v -> pickImages());
 
-        // 4. 下拉框（Spinner）初始化
-        allBars  = barDao.getAllBars();
+        // 4. 下拉框 Spinner 设置
+        allBars = barDao.getAllBars();
         barNames = new ArrayList<>();
         for (BarItem b : allBars) {
             barNames.add(b.getName());
@@ -87,12 +86,10 @@ public class PostFragment extends Fragment {
                 android.R.layout.simple_spinner_item,
                 barNames
         );
-        spinnerAdapter.setDropDownViewResource(
-                android.R.layout.simple_spinner_dropdown_item
-        );
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerBars.setAdapter(spinnerAdapter);
 
-        // 5. 发布按钮
+        // 5. 发布按钮监听
         btnPublish.setOnClickListener(v -> publishPost());
 
         return root;
@@ -102,10 +99,7 @@ public class PostFragment extends Fragment {
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-        startActivityForResult(
-                Intent.createChooser(intent, "选择图片"),
-                REQUEST_CODE_PICK_IMAGES
-        );
+        startActivityForResult(Intent.createChooser(intent, "选择图片"), REQUEST_CODE_PICK_IMAGES);
     }
 
     @Override
@@ -129,7 +123,6 @@ public class PostFragment extends Fragment {
         }
     }
 
-    /** 发布帖子 */
     private void publishPost() {
         String content = editTextContent.getText().toString().trim();
         if (TextUtils.isEmpty(content)) {
@@ -139,28 +132,25 @@ public class PostFragment extends Fragment {
 
         int userId = getCurrentUserId();
         if (userId == -1) {
-            Toast.makeText(getContext(), "用户未登录，无法发帖", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "用户未登录", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // 从 Spinner 取选中的酒吧名（如果没有选，getSelectedItem 会返回 null）
         String barName = (String) spinnerBars.getSelectedItem();
 
         PostEntity post = new PostEntity();
         post.setUserId(userId);
         post.setContent(content);
         post.setBarName(barName);
-        // 图片部分，这里仍默认用资源 id，或你改为保存 Uri 路径
-        post.setImageResId(R.drawable.sample3);
+        post.setImageResId(R.drawable.sample3); // 示例图片
 
         long postId = postDao.addPost(post);
         if (postId != -1) {
             Toast.makeText(getContext(), "发布成功", Toast.LENGTH_SHORT).show();
-            // 清空
             editTextContent.setText("");
             selectedImages.clear();
             imageAdapter.notifyDataSetChanged();
-            // 跳转详情页
+
             Intent intent = new Intent(getContext(), PostDetailActivity.class);
             intent.putExtra("post_id", (int) postId);
             startActivity(intent);
@@ -175,4 +165,3 @@ public class PostFragment extends Fragment {
         return sp.getInt("current_user_id", -1);
     }
 }
-

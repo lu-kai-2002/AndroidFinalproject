@@ -1,56 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:padding="16dp">
 
-    <!-- 文本输入框 -->
-    <EditText
-        android:id="@+id/editTextContent"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:hint="说点什么吧..."
-        android:gravity="top"
-        android:inputType="textMultiLine"
-        android:background="@android:drawable/edit_text"
-        android:padding="10dp" />
-    <!-- 酒吧选择下拉框 -->
-    <TextView
-        android:id="@+id/tvSelectBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="选择酒吧"
-        android:textSize="16sp"
-        android:layout_marginTop="16dp"/>
-
-    <Spinner
-        android:id="@+id/spinnerBars"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"/>
+        android:orientation="vertical"
+        android:gravity="top">
 
-    <!-- RecyclerView 图片列表 -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewImages"
-        android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:layout_marginTop="16dp" />
+        <EditText
+            android:id="@+id/editTextContent"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:background="@android:drawable/edit_text"
+            android:hint="说点什么吧..."
+            android:padding="12dp"
+            android:textSize="16sp"
+            android:layout_marginBottom="12dp" />
 
-    <!-- 添加图片按钮 -->
-    <Button
-        android:id="@+id/btnAddImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="添加图片"
-        android:layout_marginTop="12dp" />
+        <Spinner
+            android:id="@+id/spinnerBars"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp" />
 
+        <Button
+            android:id="@+id/btnAddImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="添加图片"
+            android:layout_marginBottom="8dp" />
 
-    <!-- 发布按钮 -->
-    <Button
-        android:id="@+id/btnPublish"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="发布"
-        android:layout_marginTop="24dp" />
-</LinearLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewImages"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginBottom="16dp" />
+
+        <Button
+            android:id="@+id/btnPublish"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="发布"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#7C4DFF" />
+    </LinearLayout>
+</ScrollView>
