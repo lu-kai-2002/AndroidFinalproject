@@ -20,13 +20,13 @@
     <fragment
         android:id="@+id/navigation_notifications"
         android:name="com.example.finalproject.ui.NotificationContainerFragment"
-        android:label="@string/title_notifications"
+        android:label="User"
         tools:layout="@layout/fragment_notification_container" />
 
     <fragment
         android:id="@+id/navigation_post"
         android:name="com.example.finalproject.ui.post.PostFragment"
-        android:label="发帖"
+        android:label="Post"
         tools:layout="@layout/fragment_post" />
 
 </navigation>

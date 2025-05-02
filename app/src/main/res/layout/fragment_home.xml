@@ -1,20 +1,19 @@
-<?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
-
-
-    <data>
-    </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="#F9F9F9"
+        android:paddingTop="24dp">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewFeed"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="8dp" />
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:paddingBottom="8dp"
+            android:clipToPadding="false" />
     </LinearLayout>
-
 </layout>
